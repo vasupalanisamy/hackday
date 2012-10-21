@@ -6,13 +6,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
+import com.walmart.hackday.dao.DAO;
+import com.walmart.hackday.entity.Order;
 import com.walmart.hackday.entity.Profile;
 
 @Path("/profile")
@@ -51,5 +56,37 @@ public class ProfileResource extends BaseResource{
 			emf.close();
 		}
 		return profile;
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Profile handlePost(Profile profile){
+		DAO dao = null;
+		Profile profileResp = null;
+		try{
+			dao = new DAO();
+			profileResp = dao.get(Profile.class, profile.getId());
+			if (profileResp != null){
+				if(profile.getFirstName() != null) {
+					profileResp.setFirstName(profile.getFirstName());
+				}
+				if(profile.getLastName() != null) {
+					profileResp.setLastName(profile.getLastName());
+				}				
+				if(profile.getPictureURL() != null) {
+					profileResp.setPictureURL(profile.getPictureURL());
+				}
+				dao.update(profileResp);
+			} else {
+				profileResp = new Profile();
+			}
+				
+		} catch (Exception exp) {
+			logger.error("handlePost(): error while updating the profile - " + profile.getId(), exp);
+		} finally {
+			dao.close();
+		}
+		return profileResp;
 	}
 }
