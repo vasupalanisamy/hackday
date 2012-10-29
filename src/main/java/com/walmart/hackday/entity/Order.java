@@ -13,12 +13,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
 @Table(name="ORDERS")
 public class Order {
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
 	public final static String ORDER_STATUS_READY = "Ready";
 	public final static String ORDER_STATUS_CHECKED_IN = "Checked-In";
@@ -55,14 +72,6 @@ public class Order {
 
 	public void setSubmittedDate(Date submittedDate) {
 		this.submittedDate = submittedDate;
-	}
-
-	public Integer getStoreId() {
-		return storeId;
-	}
-
-	public void setStoreId(Integer storeId) {
-		this.storeId = storeId;
 	}
 
 	public String getStatus() {
@@ -116,8 +125,9 @@ public class Order {
 	@Column(name="CREATION_DATE")
 	private Date submittedDate;
 	
-	@Column(name="STORE_ID")
-	private Integer storeId;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="STORE_ID")
+	private Store store;
 	
 	@Column(name="STATUS")
 	private String status;
@@ -137,6 +147,9 @@ public class Order {
 	
 	@Column(name="PICKED_BY")
 	private Integer pickedBy;
+	
+	@Transient
+	private Double price;
 	
 	@JsonManagedReference("order-lineitem")
 	@OneToMany(mappedBy="order", fetch=FetchType.EAGER)

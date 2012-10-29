@@ -10,18 +10,21 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.apache.log4j.Logger;
+
 import com.sun.jersey.multipart.FormDataParam;
  
 @Path("/file")
 public class UploadFileService {
- 
+	private static Logger logger = Logger.getLogger(UploadFileService.class);
 	@POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFile(
 		@FormDataParam("file") InputStream uploadedInputStream) {
- 
-		String uploadedFileLocation = "/Users/chandra/Dev/apache-tomcat-6.0.36/webapps/docs/images/file.JPG";
+		logger.debug("uploadFile(): I am in..");
+		String uploadedFileLocation = "/Users/vpalani/Documents/workspace/hackday/src/main/webapp/file.JPG";
  
 		// save it
 		writeToFile(uploadedInputStream, uploadedFileLocation);

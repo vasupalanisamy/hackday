@@ -144,5 +144,53 @@ VALUES (2, 'Dharani', 'Pannam', 'dpannam@walmart.com', 'password', '2000');
 INSERT INTO ASSOCIATES (ASSOCIATE_ID, FIRST_NAME, LAST_NAME, EMAIL_ADDRESS, PASSWORD, STORE_ID) 
 VALUES (3, 'TEST', 'USER', 'testuser@walmart.com', 'password', '2000');
 
+ALTER TABLE sku
+ADD (price	DECIMAL);
+
+update sku set price='249.00' where sku_id='9914706'
+update sku set price='782.99' where sku_id='10727522'
+update sku set price='672.00' where sku_id='21281829'
+update sku set price='499.00' where sku_id='20573258'
+update sku set price='219.00' where sku_id='21104949'
+update sku set price='9.99' where sku_id='17057341'
+update sku set price='33.99' where sku_id='19239236'
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL) 
+VALUES (10727522,'Nikon D90 Black 12.3MP Digital SLR','http://i.walmartimages.com/i/p/00/01/82/08/25/0001820825446_300X300.jpg');
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL) 
+VALUES (21281829,'Dell Silver 17.3" Inspiron i17R-2105SLV Laptop PC with Intel Core i5-3210M Processor and Windows 7', 'http://i.walmartimages.com/i/p/00/88/41/16/08/0088411608287_300X300.jpg');
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL)
+VALUES (20573258,'The new iPad Black or White (16GB, 32GB or 64GB)','http://i.walmartimages.com/i/p/11/13/00/62/53/1113006253072_300X300.jpg');
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL) 
+VALUES (9914706, 'Nikon AF-S Nikkor 24-70mm f/2.8G ED Wide Angle Lens','http://i.walmartimages.com/i/p/00/01/82/08/02/0001820802164_300X300.jpg');
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL) 
+VALUES (21104949, 'Nikon AF-S NIKKOR 50mm f/1.8G Fixed Focal Length Lens', 'http://i.walmartimages.com/i/p/00/01/82/08/02/0001820802199_300X300.jpg');
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL) 
+VALUES (17057341, 'Dell SWITCH by Design Studio Lids Lotus Pink, Inspiron N7110', 'http://i.walmartimages.com/i/p/00/88/41/16/06/0088411606389_300X300.jpg');
+
+INSERT INTO SKU(SKU_ID,DESCRIPTION,IMAGE_URL) 
+VALUES (19239236, 'FileMate Imagine Series Smart Cover Case for iPad2 and The new iPad', 'http://i.walmartimages.com/i/p/00/80/09/53/17/0080095317820_300X300.jpg');
+
+CREATE TABLE STORE(
+STORE_ID INTEGER NOT NULL,
+LATITUDE VARCHAR(50),
+LONGITUDE VARCHAR(50),
+NAME VARCHAR(50),
+ADDRESS VARCHAR(100),
+CONSTRAINT STORE_PK PRIMARY KEY(STORE_ID)
+);
+
+INSERT INTO STORE(STORE_ID,LATITUDE,LONGITUDE, NAME, ADDRESS) 
+VALUES (2000,'37.40089','-122.109446','Walmart Mountain View','600 Showers Drive, Mountain View, CA 94040');
+
+ALTER TABLE ORDERS ADD 
+CONSTRAINT FK_STORE FOREIGN KEY(STORE_ID) REFERENCES STORE(STORE_ID);
+
+
 COMMIT;
 	

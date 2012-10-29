@@ -3,6 +3,7 @@ package com.walmart.hackday.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import com.walmart.hackday.dao.DAO;
+import com.walmart.hackday.entity.LineItem;
 import com.walmart.hackday.entity.Order;
 import com.walmart.hackday.entity.Profile;
 
@@ -55,6 +57,7 @@ public class OrderResource extends BaseResource {
 				List resultList = query.getResultList();
 				for(Object obj : resultList) {
 					order = (Order)obj;
+					updateOrderPrice(order);
 					orders.add(order);
 				}
 			}
@@ -102,5 +105,16 @@ public class OrderResource extends BaseResource {
 		}
 
 		return orderResp;
+	}
+	
+	private void updateOrderPrice(Order order){
+		if(order != null) {
+			Set<LineItem> lineItems = order.getLineItems();
+			double price = 0.0;
+			for (LineItem lineItem : lineItems) {
+				price = price + lineItem.getSku().getPrice();
+			}
+			order.setPrice(price);
+		}
 	}
 }

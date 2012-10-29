@@ -14,6 +14,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name="SKU")
 public class Sku {
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	public Set<Sku> getCrossSellSkus() {
 		return crossSellSkus;
 	}
@@ -55,6 +63,9 @@ public class Sku {
 	
 	@Column(name="IMAGE_URL")
 	private String imageURL;
+	
+	@Column(name="PRICE")
+	private Double price;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
