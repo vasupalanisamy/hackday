@@ -93,6 +93,12 @@ public class OrderResource extends BaseResource {
 				if(order.getPickedBy() != null) {
 					orderResp.setPickedBy(order.getPickedBy());
 				}	
+				if(order.getDuration() != null){
+					orderResp.setDuration(order.getDuration());
+				}
+				if(order.getDurationText() != null){
+					orderResp.setDurationText(order.getDurationText());
+				}
 				dao.update(orderResp);
 			} else {
 				orderResp = new Order();
