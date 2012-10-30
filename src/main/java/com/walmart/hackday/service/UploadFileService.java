@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
  
 @Path("/file")
@@ -22,9 +23,12 @@ public class UploadFileService {
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFile(
-		@FormDataParam("file") InputStream uploadedInputStream) {
-		logger.debug("uploadFile(): I am in..");
-		String uploadedFileLocation = "/Users/vpalani/Documents/workspace/hackday/src/main/webapp/file.JPG";
+		@FormDataParam("file") InputStream uploadedInputStream,
+		@FormDataParam("file") FormDataContentDisposition fileDisposition) {
+		logger.debug("uploadFile(): I am in.." + fileDisposition.getFileName());
+		logger.debug("uploadFile():" + System.getProperty("catalina.base"));
+		String uploadedFileLocation = System.getProperty("catalina.base") + "/webapps/ROOT/images/" + fileDisposition.getFileName();
+		//String uploadedFileLocation = "/Users/vpalani/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT/images" + fileDisposition.getFileName();
  
 		// save it
 		writeToFile(uploadedInputStream, uploadedFileLocation);
