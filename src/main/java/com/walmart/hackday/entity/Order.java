@@ -116,6 +116,24 @@ public class Order {
 	public void setPickedBy(Integer pickedBy) {
 		this.pickedBy = pickedBy;
 	}
+	
+	public String getDurationText() {
+		return durationText;
+	}
+
+	public void setDurationText(String durationText) {
+		this.durationText = durationText;
+	}
+
+	public Long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Long duration) {
+		this.duration = duration;
+	}
+
+
 
 	@Id
 	@GeneratedValue
@@ -154,4 +172,10 @@ public class Order {
 	@JsonManagedReference("order-lineitem")
 	@OneToMany(mappedBy="order", fetch=FetchType.EAGER)
 	private Set<LineItem> lineItems;
+	
+	@Column(name="DURATION_TEXT")
+	private String durationText;
+	
+	@Column(name="DURATION")
+	private Long duration;
 }
