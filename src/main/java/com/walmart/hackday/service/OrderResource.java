@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,7 +32,8 @@ public class OrderResource extends BaseResource {
 	// The Java method will process HTTP GET requests
 	@GET
 	@Produces("application/json")
-	public List<Order> handleGet(@QueryParam("store") Integer store, @QueryParam("profileId") Integer profileId, @QueryParam("orderId") Integer orderId) throws IOException {
+	public List<Order> handleGet(@QueryParam("store") Integer store, @QueryParam("profileId") Integer profileId, 
+			@QueryParam("orderId") Integer orderId, @QueryParam("orderStatus") String orderStatus) throws IOException {
 
 		Order order = null;
 		EntityManagerFactory emf = null;
@@ -42,10 +44,19 @@ public class OrderResource extends BaseResource {
 			emf = Persistence.createEntityManagerFactory("hackday");
 			em = emf.createEntityManager();	
 			if(store != null) {
-				query = em.createQuery("SELECT order FROM " + Order.class.getName() + " order WHERE storeId = :storeId");
+				String queryString = null;
+				if(orderStatus != null && !orderStatus.trim().equalsIgnoreCase("")){
+					queryString = "SELECT order FROM " + Order.class.getName() + " order WHERE storeId = :storeId and status = :orderStatus order by duration";
+					query = em.createQuery(queryString);
+					query.setParameter("orderStatus", orderStatus);
+				} else {
+					queryString = "SELECT order FROM " + Order.class.getName() + " order WHERE storeId = :storeId order by duration";
+					query = em.createQuery(queryString);
+				}
+				
 				query.setParameter("storeId", store);				
 			} else if (profileId != null) {
-				query = em.createQuery("SELECT order FROM " + Order.class.getName() + " order WHERE createdBy = :createdBy");
+				query = em.createQuery("SELECT order FROM " + Order.class.getName() + " order WHERE createdBy = :createdBy order by duration");
 				Profile createdBy = new Profile();
 				createdBy.setId(profileId);
 				query.setParameter("createdBy", createdBy);				
