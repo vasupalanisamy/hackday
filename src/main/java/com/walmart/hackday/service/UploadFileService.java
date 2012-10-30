@@ -28,7 +28,7 @@ public class UploadFileService {
 		logger.debug("uploadFile(): I am in.." + fileDisposition.getFileName());
 		logger.debug("uploadFile():" + System.getProperty("catalina.base"));
 		String uploadedFileLocation = System.getProperty("catalina.base") + "/webapps/ROOT/images/" + fileDisposition.getFileName();
-		//String uploadedFileLocation = "/Users/vpalani/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT/images" + fileDisposition.getFileName();
+		//String uploadedFileLocation = "/Users/vpalani/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT/images/" + fileDisposition.getFileName();
  
 		// save it
 		writeToFile(uploadedInputStream, uploadedFileLocation);

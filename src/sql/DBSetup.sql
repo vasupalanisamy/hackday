@@ -197,6 +197,10 @@ ALTER TABLE ORDERS ADD DURATION INTEGER;
 
 ALTER TABLE ORDERS ADD DURATION_TEXT VARCHAR(100);
 
+update users set photo_link = '/images/1.jpg' where profile_id = 1;
+update users set photo_link = '/images/2.jpg' where profile_id = 2;
+update users set photo_link = '/images/3.jpg' where profile_id = 3;
+
 
 COMMIT;
 	
