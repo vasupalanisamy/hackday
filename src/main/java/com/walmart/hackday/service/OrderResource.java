@@ -24,6 +24,7 @@ import com.walmart.hackday.dao.DAO;
 import com.walmart.hackday.entity.LineItem;
 import com.walmart.hackday.entity.Order;
 import com.walmart.hackday.entity.Profile;
+import com.walmart.hackday.entity.Store;
 
 @Path("/order")
 public class OrderResource extends BaseResource {
@@ -46,15 +47,16 @@ public class OrderResource extends BaseResource {
 			if(store != null) {
 				String queryString = null;
 				if(orderStatus != null && !orderStatus.trim().equalsIgnoreCase("")){
-					queryString = "SELECT order FROM " + Order.class.getName() + " order WHERE storeId = :storeId and status = :orderStatus order by duration";
+					queryString = "SELECT order FROM " + Order.class.getName() + " order WHERE store = :store and status = :orderStatus order by duration";
 					query = em.createQuery(queryString);
 					query.setParameter("orderStatus", orderStatus);
 				} else {
-					queryString = "SELECT order FROM " + Order.class.getName() + " order WHERE storeId = :storeId order by duration";
+					queryString = "SELECT order FROM " + Order.class.getName() + " order WHERE store = :store order by duration";
 					query = em.createQuery(queryString);
 				}
-				
-				query.setParameter("storeId", store);				
+				Store storeObj = new Store();
+				storeObj.setStoreId(store);
+				query.setParameter("store", storeObj);				
 			} else if (profileId != null) {
 				query = em.createQuery("SELECT order FROM " + Order.class.getName() + " order WHERE createdBy = :createdBy order by duration");
 				Profile createdBy = new Profile();
